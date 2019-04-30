@@ -7,5 +7,7 @@
     <title>WorldTime</title>
 </head>
 <body>
+    <button class="btnGps">Enable Geolocation</button>
 </body>
+<script src="js/geoMap.js"></script>
 </html>
