@@ -11,9 +11,9 @@
 	<header>
 		<h1> WORLD CLOCK </h1>
 	</header>
-	<div id="containers">
+	<div id="Containers_Form">
 		<form action="#" method="POST">
-			<div id="Containers_Form">
+			<div id="Containers_Search">
 				<input id="SearchBar_I" type="search">
 				<i class="fa fa-search"></i>
 			</div>

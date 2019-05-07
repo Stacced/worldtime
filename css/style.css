@@ -14,7 +14,7 @@ html, body{
 }
 
 
-#containers{
+#containers_Form{
 
     height: calc(100% - 50px);
     display: flex;
@@ -33,7 +33,7 @@ h1{
 
 /* <editor-fold defaultstate="collapsed" desc="FORM ( SEARCH SECTION )"> */
 
-#Containers_Form{
+#Containers_Search{
 
     top: 50%;
 
