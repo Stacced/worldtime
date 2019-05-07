@@ -14,7 +14,7 @@ html, body{
 }
 
 
-#containers_Form{
+#Containers_Form{
 
     height: calc(100% - 50px);
     display: flex;
@@ -102,7 +102,7 @@ h1{
 
     transition: 1s;    
 }
-#Containers_Form:hover .fa{
+#Containers_Search:hover .fa{
 
     background: #07051a;
     color: white;
