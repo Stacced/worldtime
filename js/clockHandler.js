@@ -1,6 +1,6 @@
+let date = null; // Déclaration de la variable pour accès global
 
-let date = null;
-
+// Gestion click recherche
 $('#searchBtn').click(() => {
     let address = $('#SearchBar_I').val();
     $.get({
@@ -12,6 +12,7 @@ $('#searchBtn').click(() => {
                 initAnalogClock(address);
                 setUpMinuteHands();
                 moveSecondHands();
+                initDigitalClock();
             } else {
                 // error output
             }
@@ -19,19 +20,22 @@ $('#searchBtn').click(() => {
     })
 });
 
+/*
+ * Initialisation horloge analogique
+ */
 function initAnalogClock(cityName) {
-    // Show clock container
+    // Affichage horloge
     $('.clock-container').removeAttr('hidden');
 
-    // Change city name
+    // Mise à jour header ville
     $('#cityHeader').html(cityName);
 
-    // Get values
+    // Récup valeurs date
     let hours = date.getHours();
     let minutes = date.getMinutes();
     let seconds = date.getSeconds();
 
-    // Create an object with each hand and it's angle in degrees
+    // Création tableau aiguilles
     let hands = [
         {
             hand: 'hours',
@@ -46,13 +50,14 @@ function initAnalogClock(cityName) {
             angle: (seconds * 6)
         }
     ];
-    // Loop through each of these hands to set their angle
+
+    // Loop pour chaque aiguille
     for (let j = 0; j < hands.length; j++) {
         let elements = document.querySelectorAll('.' + hands[j].hand);
         for (let k = 0; k < elements.length; k++) {
             elements[k].style.webkitTransform = 'rotateZ('+ hands[j].angle +'deg)';
             elements[k].style.transform = 'rotateZ('+ hands[j].angle +'deg)';
-            // If this is a minute hand, note the seconds position (to calculate minute position later)
+            // Si aiguille = minute => sauvegarde position
             if (hands[j].hand === 'minutes') {
                 elements[k].parentNode.setAttribute('data-second-angle', hands[j + 1].angle);
             }
@@ -61,14 +66,14 @@ function initAnalogClock(cityName) {
 }
 
 /*
- * Set a timeout for the first minute hand movement (less than 1 minute), then rotate it every minute after that
+ * Timeout et démarrage rotation aiguille
  */
 function setUpMinuteHands() {
-    // Find out how far into the minute we are
+    // Récupération position aiguille
     let containers = document.querySelectorAll('.minutes-container');
     let secondAngle = containers[0].getAttribute("data-second-angle");
     if (secondAngle > 0) {
-        // Set a timeout until the end of the current minute, to move the hand
+        // Timeout 1s pour déplacement
         let delay = (((360 - secondAngle) / 6) + 0.1) * 1000;
         setTimeout(function() {
             moveMinuteHands(containers);
@@ -77,7 +82,7 @@ function setUpMinuteHands() {
 }
 
 /*
- * Do the first minute's rotation
+ * Gestion déplacement aiguille minutes
  */
 function moveMinuteHands(containers) {
     for (let i = 0; i < containers.length; i++) {
@@ -99,7 +104,7 @@ function moveMinuteHands(containers) {
 }
 
 /*
- * Move the second containers
+ * Gestion déplacement aiguille secondes
  */
 function moveSecondHands() {
     let containers = document.querySelectorAll('.seconds-container');
@@ -116,34 +121,24 @@ function moveSecondHands() {
     }, 1000);
 }
 
-function showTime(){
-    var date = new Date();
-    var h = date.getHours(); // 0 - 23
-    var m = date.getMinutes(); // 0 - 59
-    var s = date.getSeconds(); // 0 - 59
-    
-    var tempH = "";
-    var tempM = "";
-    var tempS = "";
+function initDigitalClock(){
+    let h = date.getHours(); // 0 - 23
+    let m = date.getMinutes(); // 0 - 59
+    let s = date.getSeconds(); // 0 - 59
         
-    tempH = (h < 10) ? "0" + h : h;
-    tempM = (m < 10) ? "0" + m : m;
-    tempS = (s < 10) ? "0" + s : s;
-    
-    var time = tempH + ":" + tempM + ":" + tempS;
+    let tempH = (h < 10) ? "0" + h : h;
+    let tempM = (m < 10) ? "0" + m : m;
+    let tempS = (s < 10) ? "0" + s : s;
+
+    let time = tempH + ":" + tempM + ":" + tempS;
     document.getElementById("clock-digital").innerText = time;
     document.getElementById("clock-digital").textContent = time;
-    
-    RefreshTime(h, m, s);
+
+    RefreshDigital(h, m, s - 1); // Correction incrément premier call
 }
 
-function RefreshTime(h, m, s) {
+function RefreshDigital(h, m, s) {
     console.log("Appel Refresh");
-    
-    var tempH = "";
-    var tempM = "";
-    var tempS = "";
-    
     s += 1;
     
     if (s > 59) {
@@ -160,11 +155,11 @@ function RefreshTime(h, m, s) {
         }
     }
             
-    tempH = (h < 10) ? "0" + h : h;
-    tempM = (m < 10) ? "0" + m : m;
-    tempS = (s < 10) ? "0" + s : s;
-    
-    var time = tempH + ":" + tempM + ":" + tempS;
+    let tempH = (h < 10) ? "0" + h : h;
+    let tempM = (m < 10) ? "0" + m : m;
+    let tempS = (s < 10) ? "0" + s : s;
+
+    let time = tempH + ":" + tempM + ":" + tempS;
     document.getElementById("clock-digital").innerText = time;
     document.getElementById("clock-digital").textContent = time;
     
