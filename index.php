@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <h1>WORLD CLOCK</h1>
+        <img src="img/Logo.png" alt="" id="logo"/>
     </header>
     <div id="Containers_Form">
         <form action="#" method="POST">

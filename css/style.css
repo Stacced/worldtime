@@ -13,7 +13,7 @@ html, body {
 }
 
 #Containers_Form {
-    height: calc(100% - 50px);
+    height: calc(100% - 50px - 170px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,9 +21,14 @@ html, body {
 }
 
 /* TITLE H1 */
-h1 {
-    color : white;
-    font-size: 40px;
+#logo{
+    margin-top: 20px;
+    border-radius: 20px;
+    height: 150px;
+}
+
+header{
+    text-align: center;
 }
 
 /* SEARCH SECTION */
