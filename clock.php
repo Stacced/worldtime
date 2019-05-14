@@ -21,27 +21,24 @@ $json_gpsresponse = curl_exec($ch);
 
 // Decode JSON and get GPS coordinates
 $result_gps = json_decode($json_gpsresponse, true);
-$gps_coords = $result_gps['results'][0]['geometry'];
+
+if (count($result_gps['results']) >= 1) {
+    $gps_coords = $result_gps['results'][0]['geometry'];
 
 // GPS to timestamp URL
-$url_gpstotime = "http://api.timezonedb.com/v2.1/get-time-zone?key=$api_key_timezone&format=json&by=position&lat=" . $gps_coords['lat'] . '&lng=' . $gps_coords['lng'];
-curl_setopt($ch, CURLOPT_URL, $url_gpstotime);
+    $url_gpstotime = "http://api.timezonedb.com/v2.1/get-time-zone?key=$api_key_timezone&format=json&by=position&lat=" . $gps_coords['lat'] . '&lng=' . $gps_coords['lng'];
+    curl_setopt($ch, CURLOPT_URL, $url_gpstotime);
 
 // Execute request and get data
-$json_timeresponse = curl_exec($ch);
-$result_time = json_decode($json_timeresponse, true);
+    $json_timeresponse = curl_exec($ch);
+    $result_time = json_decode($json_timeresponse, true);
 
 // Get timestamp
-$local_timestamp = $result_time['formatted'];
-?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
-    <title>WorldTime</title>
-</head>
-<body>
-</body>
-</html>
+    $local_timestamp = $result_time['formatted'];
+
+// Echo result
+    echo $local_timestamp;
+} else {
+    echo 'error, no city found';
+}
+
