@@ -1,6 +1,5 @@
 // set up the page
-
-var geoBtn = document.querySelector('.btnGps');
+let geoBtn = document.querySelector('.btnGps');
 
 // draw the google map, or not
 
@@ -8,10 +7,11 @@ geoBtn.onclick = function() {
   handlePermission();
 };
 
-var revealPosition = function(position) {
+let revealPosition = function(position) {
   geoBtn.style.display = 'none';
   console.log(position.coords.latitude);
-  console.log(position.coords.longitude); 
+  console.log(position.coords.longitude);
+  searchTime('popup', position.coords.latitude, position.coords.longitude);
 };
 
 // test for geolocation support, provide geolocation settings, determine location of the user's device

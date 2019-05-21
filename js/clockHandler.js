@@ -1,24 +1,44 @@
 let date = null; // Déclaration de la variable pour accès global
 
 // Gestion click recherche
-$('#searchBtn').click(() => {
-    let address = $('#SearchBar_I').val();
-    $.get({
-        url: 'clock.php?location=' + address,
-        data: null,
-        success: (result) => {
-            if (new Date(result).getTime() > 0) {
-                date = new Date(result);
-                initAnalogClock(address);
-                setUpMinuteHands();
-                moveSecondHands();
-                initDigitalClock();
-            } else {
-                // error output
+function searchTime(mode, lat, long) {
+    if (mode === 'popup') {
+        $.get({
+            url: 'clock.php?lat=' + lat + '&long=' + long,
+            data: null,
+            success: (result) => {
+                console.log(result);
+                let dataArr = result.split('|');
+                if (new Date(dataArr[0]).getTime() > 0) {
+                    date = new Date(dataArr[0]);
+                    initAnalogClock(dataArr[1]);
+                    setUpMinuteHands();
+                    moveSecondHands();
+                    initDigitalClock();
+                } else {
+                    // error output...
+                }
             }
-        }
-    })
-});
+        })
+    } else if (mode === 'searchbar') {
+        let address = $('#SearchBar_I').val();
+        $.get({
+            url: 'clock.php?location=' + address,
+            data: null,
+            success: (result) => {
+                if (new Date(result).getTime() > 0) {
+                    date = new Date(result);
+                    initAnalogClock(address);
+                    setUpMinuteHands();
+                    moveSecondHands();
+                    initDigitalClock();
+                } else {
+                    // error output...
+                }
+            }
+        })
+    }
+}
 
 /*
  * Initialisation horloge analogique
@@ -163,5 +183,5 @@ function RefreshDigital(h, m, s) {
     document.getElementById("clock-digital").innerText = time;
     document.getElementById("clock-digital").textContent = time;
     
-    setTimeout(() => {RefreshTime(h, m, s)}, 1000);
+    setTimeout(() => {RefreshDigital(h, m, s)}, 1000);
 }

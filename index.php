@@ -15,7 +15,7 @@
         <div>
             <div id="Containers_Search">
                 <input id="SearchBar_I" type="search">
-                <i class="fa fa-search" id="searchBtn"></i>
+                <i class="fa fa-search" id="searchBtn" onclick="searchTime('searchbar', null, null)"></i>
             </div>
             <img id="location_GPS" class="btnGps" src="img/location.png" alt="Localisation GPS"/>
         </div>
@@ -33,7 +33,7 @@
                     <div class="seconds"></div>
                 </div>
             </article>
-            <div id="clock-digital" class="clock-digital" onload="showTime()"></div>
+            <div id="clock-digital" class="clock-digital"></div>
         </div>
     </div>
 </body>
