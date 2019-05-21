@@ -12,13 +12,13 @@
         <img src="img/Logo.png" alt="" id="logo"/>
     </header>
     <div id="Containers_Form">
-        <form action="#" method="POST">
+        <div>
             <div id="Containers_Search">
                 <input id="SearchBar_I" type="search">
                 <i class="fa fa-search" id="searchBtn"></i>
             </div>
             <img id="location_GPS" class="btnGps" src="img/location.png" alt="Localisation GPS"/>
-        </form>
+        </div>
 
         <div class="clock-container" hidden>
             <h3 id="cityHeader">Nom Ville</h3>
