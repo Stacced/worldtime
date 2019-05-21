@@ -1,10 +1,15 @@
-var dateOne = document.getElementById('dateOne').value;
-var dateTwo = document.getElementById('dateTwo').value;
+var dateOne = new Date(1980, 6, 31,1);
+var dateTwo = new Date(1980, 6, 31,24);
 
-if (dateOne > dateTwo) {
-  var resultMinus = dateOne - dateTwo;
+var hoursOne = dateOne.getHours();
+var hoursTwo = dateTwo.getHours();
+
+
+
+var resultMinus = hoursOne - hoursTwo;
+
+if (resultMinus > 0) {
+  document.getElementById("output").innerHTML = "+" + resultMinus;
 }else{
-  var resultMinus = dateTwo - dateOne;
+  document.getElementById("output").innerHTML = resultMinus;
 }
-
-document.getElementById("output").innerHTML = resultMinus;
