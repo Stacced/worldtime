@@ -1,5 +1,11 @@
 let date = null; // Déclaration de la variable pour accès global
 
+// Timeouts and intervals references
+let timeoutOne = null;
+let timeoutTwo = null;
+let intervalOne = null;
+let intervalTwo = null;
+
 // Gestion click recherche
 function searchTime(mode, lat, long) {
     if (mode === 'popup') {
@@ -7,16 +13,21 @@ function searchTime(mode, lat, long) {
             url: 'clock.php?lat=' + lat + '&long=' + long,
             data: null,
             success: (result) => {
-                console.log(result);
+                // Successful AJAX request
                 let dataArr = result.split('|');
                 if (new Date(dataArr[0]).getTime() > 0) {
                     date = new Date(dataArr[0]);
-                    initAnalogClock(dataArr[1]);
+
+                    // Reset clock data
+                    resetClock();
+
+                    // Initialize clock
+                    initAnalogClock("TZ : " + dataArr[1]);
                     setUpMinuteHands();
                     moveSecondHands();
                     initDigitalClock();
                 } else {
-                    // error output...
+                    console.log("ERR: Date is not correctly formatted. Returning");
                 }
             }
         })
@@ -28,12 +39,17 @@ function searchTime(mode, lat, long) {
             success: (result) => {
                 if (new Date(result).getTime() > 0) {
                     date = new Date(result);
+
+                    // Reset clock data
+                    resetClock();
+
+                    // Initialize clock
                     initAnalogClock(address);
                     setUpMinuteHands();
                     moveSecondHands();
                     initDigitalClock();
                 } else {
-                    // error output...
+                    console.log("ERR: Date is not correctly formatted. Returning");
                 }
             }
         })
@@ -95,7 +111,7 @@ function setUpMinuteHands() {
     if (secondAngle > 0) {
         // Timeout 1s pour déplacement
         let delay = (((360 - secondAngle) / 6) + 0.1) * 1000;
-        setTimeout(function() {
+        timeoutOne = setTimeout(function() {
             moveMinuteHands(containers);
         }, delay);
     }
@@ -110,7 +126,7 @@ function moveMinuteHands(containers) {
         containers[i].style.transform = 'rotateZ(6deg)';
     }
     // Then continue with a 60 second interval
-    setInterval(function() {
+    intervalOne = setInterval(function() {
         for (let i = 0; i < containers.length; i++) {
             if (containers[i].angle === undefined) {
                 containers[i].angle = 12;
@@ -128,7 +144,7 @@ function moveMinuteHands(containers) {
  */
 function moveSecondHands() {
     let containers = document.querySelectorAll('.seconds-container');
-    setInterval(function() {
+    intervalTwo = setInterval(function() {
         for (let i = 0; i < containers.length; i++) {
             if (containers[i].angle === undefined) {
                 containers[i].angle = 6;
@@ -141,6 +157,9 @@ function moveSecondHands() {
     }, 1000);
 }
 
+/*
+ * Initialisation horloge digitale
+ */
 function initDigitalClock(){
     let h = date.getHours(); // 0 - 23
     let m = date.getMinutes(); // 0 - 59
@@ -158,7 +177,6 @@ function initDigitalClock(){
 }
 
 function RefreshDigital(h, m, s) {
-    console.log("Appel Refresh");
     s += 1;
     
     if (s > 59) {
@@ -183,5 +201,12 @@ function RefreshDigital(h, m, s) {
     document.getElementById("clock-digital").innerText = time;
     document.getElementById("clock-digital").textContent = time;
     
-    setTimeout(() => {RefreshDigital(h, m, s)}, 1000);
+    timeoutTwo = setTimeout(() => {RefreshDigital(h, m, s)}, 1000);
+}
+
+function resetClock() {
+    clearInterval(intervalOne);
+    clearInterval(intervalTwo);
+    clearTimeout(timeoutOne);
+    clearTimeout(timeoutTwo);
 }

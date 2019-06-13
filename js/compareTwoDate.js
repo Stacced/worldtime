@@ -4,8 +4,6 @@ var dateTwo = new Date(1980, 6, 31,24);
 var hoursOne = dateOne.getHours();
 var hoursTwo = dateTwo.getHours();
 
-
-
 var resultMinus = hoursOne - hoursTwo;
 
 if (resultMinus > 0) {
